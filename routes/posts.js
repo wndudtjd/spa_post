@@ -3,7 +3,7 @@ const Posts = require("../schemas/post.js");
 const router = express.Router();
 
 // 게시글 조회 : /posts GET
-router.get("/posts", async (req, res) => {
+router.get("/", async (req, res) => {
 
   const dataAll = await Posts.find().sort({ createdAt: -1 })
 
@@ -21,7 +21,7 @@ router.get("/posts", async (req, res) => {
 });
 
 // 게시글 상세 조회 : /posts/:_postId GET
-router.get("/posts/:postsId", async (req, res) => {
+router.get("/:postsId", async (req, res) => {
 
   const { postsId } = req.params;
   console.log("req.params",req.params)
@@ -52,7 +52,7 @@ router.get("/posts/:postsId", async (req, res) => {
 });
 
 // 게시글 작성 : /posts POST
-router.post("/posts", async (req, res) => {
+router.post("/", async (req, res) => {
   const { user, password, title, content } = req.body
 
   let now = new Date()
