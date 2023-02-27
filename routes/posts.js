@@ -36,19 +36,19 @@ router.get("/:postsId", async (req, res) => {
   }
 
 
-  // const posts = await Posts.find();
-  // const filteredPosts = posts.filter((e) => e["_id"].toString() === postsId);
-  // console.log("filteredPosts",filteredPosts)
-  // const data = 
-  //     {
-  //       postsId: filteredPosts[0]._id.toString(),
-  //       user: filteredPosts[0].user,
-  //       title: filteredPosts[0].title,
-  //       content: filteredPosts[0].content,
-  //       createdAt: filteredPosts[0].createdAt,
-  //     }
-  // res.json({ data });
-  res.json({ currentPost });
+  const posts = await Posts.find();
+  const filteredPosts = posts.filter((e) => e["_id"].toString() === postsId);
+  console.log("filteredPosts",filteredPosts)
+  const data = 
+      {
+        postsId: filteredPosts[0]._id.toString(),
+        user: filteredPosts[0].user,
+        title: filteredPosts[0].title,
+        content: filteredPosts[0].content,
+        createdAt: filteredPosts[0].createdAt,
+      }
+  res.json({ data });
+  // res.json({ currentPost });
 });
 
 // 게시글 작성 : /posts POST
