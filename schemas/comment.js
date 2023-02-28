@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const commentSchema = new mongoose.Schema({
     postId: {            //고유번호
         type: String, 
+        required: true,
     },
     user: {               //작성자명
         type: String,
@@ -20,6 +21,7 @@ const commentSchema = new mongoose.Schema({
         type: Date,
         required: false,
     },
-});
+    
+}, { versionKey : false });
 
 module.exports = mongoose.model("Comment", commentSchema);
