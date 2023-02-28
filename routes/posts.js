@@ -61,7 +61,7 @@ router.post("/", async (req, res) => {
   res.json({ "message" : "게시글이 생성하였습니다." })
 });
 
-// 게시글 수정 : /posts/:_postsId
+// 게시글 수정 : /posts/:_postsId PUT
 router.put("/:postsId", async(req, res) => {
 
   const { postsId } = req.params;
@@ -83,7 +83,7 @@ router.put("/:postsId", async(req, res) => {
   res.json({ "message" : "게시글을 수정하였습니다."})
 })
 
-// 게시글 삭제 : /posts/:postsId
+// 게시글 삭제 : /posts/:postsId DELETE
 router.delete("/:postsId", async(req, res) => {
 
   const { postsId } = req.params;
