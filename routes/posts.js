@@ -24,28 +24,29 @@ router.get("/", async (req, res) => {
 router.get("/:postsId", async (req, res) => {
 
   const { postsId } = req.params;
-  console.log("req.params",req.params)
-  console.log(typeof(req.params))
+  // console.log("req.params",req.params)
+  // console.log(typeof(req.params))
 
-  const currentPost = await Posts.find({ _id : postsId });
+  const currentPost = await Posts.findOne({ _id : postsId });
   console.log(currentPost)
 
 
-  if (!currentPost.length) {
+  if (!currentPost) {
       return res.status(400).json({ success: false, errorMessage: "게시글이 존재하지 않습니다." });
   }
 
 
-  const posts = await Posts.find();
-  const filteredPosts = posts.filter((e) => e["_id"].toString() === postsId);
-  console.log("filteredPosts",filteredPosts)
+  // const posts = await Posts.find();
+  // const filteredPosts = posts.filter((e) => e["_id"].toString() === postsId);
+  // console.log("filteredPosts",filteredPosts)
+  // console.log(filteredPosts[0]._id)
   const data = 
       {
-        postsId: filteredPosts[0]._id.toString(),
-        user: filteredPosts[0].user,
-        title: filteredPosts[0].title,
-        content: filteredPosts[0].content,
-        createdAt: filteredPosts[0].createdAt,
+        postsId: currentPost._id.toString(),
+        user: currentPost.user,
+        title: currentPost.title,
+        content: currentPost.content,
+        createdAt: currentPost.createdAt,
       }
   res.json({ data });
   // res.json({ currentPost });
