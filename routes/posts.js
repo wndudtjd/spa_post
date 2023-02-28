@@ -32,10 +32,7 @@ router.get("/:postsId", async (req, res) => {
 
 
   if (!currentPost.length) {
-      return res.status(400).json({ 
-        success: false, 
-        errorMessage: "게시글이 존재하지 않습니다." 
-      });
+      return res.status(400).json({ success: false, errorMessage: "게시글이 존재하지 않습니다." });
   }
 
 
@@ -74,17 +71,11 @@ router.put("/:postsId", async(req, res) => {
 
   
   if(!currentPost.length) {
-    return res.status(400).json({ 
-      success : false,
-      errorMessage : "게시글이 존재하지않습니다."
-    })
+    return res.status(400).json({ success : false, errorMessage : "게시글이 존재하지않습니다." })
   }
 
   if(password != currentPost[0]["password"]) {
-    return res.status(404).json({
-      success : false,
-      errorMessage : "비밀번호가 틀렸습니다."
-    })
+    return res.status(404).json({ success : false, errorMessage : "비밀번호가 틀렸습니다." })
   }
 
   await Posts.updateOne({_id : (postsId)}, {$set: {password: password, title: title, content: content}});
@@ -93,5 +84,23 @@ router.put("/:postsId", async(req, res) => {
 })
 
 // 게시글 삭제 : /posts/:postsId
+router.delete("/:postsId", async(req, res) => {
 
+  const { postsId } = req.params;
+  const { password } = req.body;
+
+  const currentPost = await Posts.find({ _id : postsId });
+
+  if (!currentPost.length) {
+    return res.status(400).json({ success : false, errorMessage : "게시글이 존재하지 않습니다."})
+  }
+
+  if (password != currentPost[0]["password"]) {
+    return res.status(404).json({ success : false, errorMessage : "비밀번호가 틀렸습니다."})
+  }
+
+  await Posts.deleteOne({ _id : postsId });
+
+  res.json({ "message" : "게시글을 삭제하였습니다."})
+})
 module.exports = router;
