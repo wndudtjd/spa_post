@@ -27,7 +27,25 @@ router.get("/:postsId", async (req, res) => {
   }
 
   res.json({ data : data });
-})
+
+  module.exports = router;
+});
+
+// 댓글 작성 : /comments/:postsId POST
+router.post("/:postsId", async (req, res) => {
+  const { postsId } = req.params;
+  const { user, password, content } = req.body
+  const CurrentPosts = await Posts.findOne({ _id : postsId });
+
+  if(!CurrentPosts) {
+    return res.status(400).json({ success : false, errorMessage : "게시글이 존재하지 않습니다."});
+  }
+
+  let now = new Date()
+  await Comment.create({ postsId : postsId, user : user, password : password, content : content, createdAt : now });
+
+  res.json({ "message" : "댓글을 생성하였습니다." })
+});
 
 
 
