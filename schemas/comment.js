@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const commentSchema = new mongoose.Schema({
-    postId: {            //고유번호
+    postsId: {            //고유번호
         type: String, 
         required: true,
     },
