@@ -3,7 +3,7 @@ const Posts = require('../schemas/post')
 const Comment = require('../schemas/comment')
 const router = express.Router()
 
-// 댓글 목록 조회 : /posts/:_postId/comments GET
+// 댓글 목록 조회 : /posts/:_postId/comments   GET
 router.get('/', async (req, res) => {
   const { postsId } = req.params
 
@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
   module.exports = router
 })
 
-// 댓글 작성 : /posts/:_postId/comments POST
+// 댓글 작성 : /posts/:_postId/comments  POST
 router.post('/', async (req, res) => {
   const { postsId } = req.params
   const { user, password, content } = req.body
@@ -46,6 +46,42 @@ router.post('/', async (req, res) => {
   res.json({ message: '댓글을 생성하였습니다.' })
 })
 
-// 댓글 수정 : /posts/:_postId/comments/:_commentId
+// 댓글 수정 : /posts/:_postId/comments/:_commentId   PUT
+router.put('/:commentId', async (req, res) => {
+  const { commentId } = req.params
+  const { password, content } = req.body
+
+  const currentComment = await Comment.findOne({ _id: commentId })
+
+  if (!currentComment) {
+    return res.status(400).json({ success: false, errorMessage: '댓글이 존재하지 않습니다.' })
+  }
+  if (password != currentComment.password) {
+    return res.status(404).json({ success: false, errorMessage: '비밀번호가 틀렸습니다.' })
+  }
+
+  await Comment.updateOne({ _id: postsId }, { $set: { password: password, content: content } })
+
+  res.json({ message: '댓글을 수정하였습니다. ' })
+})
+
+// 댓글 삭제 : /posts/:_postId/comments/:_commentId  DELETE
+router.delete('/:commentId', async (req, res) => {
+  const { commentId } = req.params
+  const { password } = req.body
+
+  const currentComment = await Comment.findOne({ _id: commentId })
+
+  if (!commentId) {
+    return res.status(400).json({ success: false, errorMessage: '댓글이 존재하지 않습니다.' })
+  }
+  if (password != currentComment.password) {
+    return res.status(404).json({ success: false, errorMessage: '비밀번호가 틀렸습니다.' })
+  }
+
+  await Comment.deleteOne({ _id: commentId })
+
+  res.json({ message: '게시글을 삭제하였습니다. ' })
+})
 
 module.exports = router
