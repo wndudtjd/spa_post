@@ -1,34 +1,39 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-
-const postSchema = mongoose.Schema({
-  // postsId: {             // 고유번호
-  //     type: Number,
-  //     required: true,
-  //     unique: true,
-  // },
-  user: {                // 작성자명
+const postSchema = mongoose.Schema(
+  {
+    // postsId: {             // 고유번호
+    //     type: Number,
+    //     required: true,
+    //     unique: true,
+    // },
+    user: {
+      // 작성자명
       type: String,
       required: true,
-      unique :true,
-  },
-  password: {             // 비밀번호
+      unique: true,
+    },
+    password: {
+      // 비밀번호
       type: String,
       required: true,
-  },
-  title: {                // 제목
+    },
+    title: {
+      // 제목
       type: String,
       required: true,
-  },
-  content: {
-      type: String,       // 내용
+    },
+    content: {
+      type: String, // 내용
       required: true,
-
-  },
-  createdAt: {            // 시간
+    },
+    createdAt: {
+      // 시간
       type: Date,
       required: false,
+    },
   },
-}, { versionKey : false })
+  { versionKey: false }
+)
 
-module.exports = mongoose.model('Posts', postSchema);
+module.exports = mongoose.model('Posts', postSchema)
