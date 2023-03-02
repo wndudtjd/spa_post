@@ -4,7 +4,7 @@ const commentsRouter = require('./comments')
 
 const router = express.Router()
 
-router.use('/posts', postsRouter)
-router.use('/posts/:postsId/comments', commentsRouter)
+router.use('/posts', [postsRouter, commentsRouter])
+// router.use('/posts/:postsId/comments', commentsRouter)
 
 module.exports = router

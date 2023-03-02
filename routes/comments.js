@@ -4,7 +4,7 @@ const Comment = require('../schemas/comment')
 const router = express.Router()
 
 // 댓글 목록 조회 : /posts/:_postId/comments   GET
-router.get('/', async (req, res) => {
+router.get('/:postsId/comments', async (req, res) => {
   const { postsId } = req.params
 
   const currentPosts = await Posts.find({ _id: postsId })
@@ -31,11 +31,11 @@ router.get('/', async (req, res) => {
 })
 
 // 댓글 작성 : /posts/:_postId/comments  POST
-router.post('/', async (req, res) => {
+router.post('/:postsId/comments', async (req, res) => {
   const { postsId } = req.params
   const { user, password, content } = req.body
   const CurrentPosts = await Posts.findOne({ _id: postsId })
-
+  console.log(CurrentPosts)
   if (!CurrentPosts) {
     return res.status(400).json({ success: false, errorMessage: '게시글이 존재하지 않습니다.' })
   }
@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
 })
 
 // 댓글 수정 : /posts/:_postId/comments/:_commentId   PUT
-router.put('/:commentId', async (req, res) => {
+router.put('/:postsId/comments/:commentId', async (req, res) => {
   const { commentId } = req.params
   const { password, content } = req.body
 
@@ -66,7 +66,7 @@ router.put('/:commentId', async (req, res) => {
 })
 
 // 댓글 삭제 : /posts/:_postId/comments/:_commentId  DELETE
-router.delete('/:commentId', async (req, res) => {
+router.delete('/:postsId/comments/:commentId', async (req, res) => {
   const { commentId } = req.params
   const { password } = req.body
 
